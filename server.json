@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.write-space/writespace-mcp",
+  "description": "Persistent docs and memory for AI agents — read, write, organize & search a shared workspace.",
+  "repository": {
+    "url": "https://github.com/write-space/writespace-mcp",
+    "source": "github",
+    "id": "1265820631"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://app.writespace.io/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Personal access token from Settings → API tokens, sent as 'Bearer ws_pat_…'",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
