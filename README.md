@@ -23,6 +23,14 @@ Three steps, two minutes:
 2. **Endpoint** — one hosted endpoint for all accounts: `https://app.writespace.io/mcp`
 3. **Configure your client** — snippets below.
 
+### Claude Code (CLI)
+
+```bash
+claude mcp add --transport http writespace \
+  https://app.writespace.io/mcp \
+  --header "Authorization: Bearer ws_pat_YOUR_TOKEN_HERE"
+```
+
 ### Claude Desktop
 
 `~/Library/Application Support/Claude/claude_desktop_config.json`
@@ -56,14 +64,6 @@ Notes:
 - The token goes in the `AUTH_HEADER` env var (and `--header Authorization:${AUTH_HEADER}` with **no space** after the colon) because `mcp-remote` mishandles spaces in `--header` arguments.
 - Claude Desktop launches with a minimal `PATH`. If `npx` isn't found, use its absolute path (e.g. `/usr/local/bin/npx`, or your nvm path) — and add a matching `"PATH"` entry to `env` if it relies on a versioned `node`.
 - Fully quit and reopen Claude Desktop (Cmd-Q) after editing — the config is read only at launch.
-
-### Claude Code (CLI)
-
-```bash
-claude mcp add --transport http writespace \
-  https://app.writespace.io/mcp \
-  --header "Authorization: Bearer ws_pat_YOUR_TOKEN_HERE"
-```
 
 ### Cursor
 
