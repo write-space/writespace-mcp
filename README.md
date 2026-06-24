@@ -27,26 +27,42 @@ Three steps, two minutes:
 
 `~/Library/Application Support/Claude/claude_desktop_config.json`
 
+Claude Desktop's config supports only **local (stdio)** servers, so a remote HTTP
+server is bridged through [`mcp-remote`](https://www.npmjs.com/package/mcp-remote),
+which Claude Desktop launches locally and which forwards to the endpoint:
+
 ```json
 {
   "mcpServers": {
     "writespace": {
-      "type": "http",
-      "url": "https://app.writespace.io/mcp",
-      "headers": {
-        "Authorization": "Bearer ws_pat_…"
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://app.writespace.io/mcp",
+        "--header",
+        "Authorization:${AUTH_HEADER}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer ws_pat_YOUR_TOKEN_HERE"
       }
     }
   }
 }
 ```
 
+Notes:
+
+- The token goes in the `AUTH_HEADER` env var (and `--header Authorization:${AUTH_HEADER}` with **no space** after the colon) because `mcp-remote` mishandles spaces in `--header` arguments.
+- Claude Desktop launches with a minimal `PATH`. If `npx` isn't found, use its absolute path (e.g. `/usr/local/bin/npx`, or your nvm path) — and add a matching `"PATH"` entry to `env` if it relies on a versioned `node`.
+- Fully quit and reopen Claude Desktop (Cmd-Q) after editing — the config is read only at launch.
+
 ### Claude Code (CLI)
 
 ```bash
 claude mcp add --transport http writespace \
   https://app.writespace.io/mcp \
-  --header "Authorization: Bearer ws_pat_…"
+  --header "Authorization: Bearer ws_pat_YOUR_TOKEN_HERE"
 ```
 
 ### Cursor
@@ -56,7 +72,7 @@ Settings → MCP → Add server
 ```
 Type:    HTTP
 URL:     https://app.writespace.io/mcp
-Header:  Authorization: Bearer ws_pat_…
+Header:  Authorization: Bearer ws_pat_YOUR_TOKEN_HERE
 ```
 
 ### Gemini CLI
@@ -69,7 +85,7 @@ Header:  Authorization: Bearer ws_pat_…
     "writespace": {
       "httpUrl": "https://app.writespace.io/mcp",
       "headers": {
-        "Authorization": "Bearer ws_pat_…"
+        "Authorization": "Bearer ws_pat_YOUR_TOKEN_HERE"
       }
     }
   }
